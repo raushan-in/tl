@@ -1,0 +1,10 @@
+[
+    {
+        "model": "price_tracker.coins",
+        "pk": 1,
+        "fields": {
+            "coin_id": "bitcoin",
+            "coin_name": "BITCOIN"
+        }
+    }
+]
