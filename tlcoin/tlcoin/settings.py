@@ -42,7 +42,8 @@ INSTALLED_APPS = [
 
     #apps
     'price_tracker',
-    'coin'
+    'coin',
+    'notification'
 ]
 
 MIDDLEWARE = [
