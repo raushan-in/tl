@@ -18,5 +18,5 @@ class CoinPrices(models.Model):
     class Meta:
         unique_together = ('coin_id', 'vs_currency', 'price', 'price_updated_at')
 
-def __str__(self):
+    def __str__(self):
         return f'{self.coin_id}-{self.vs_currency}-{self.price}'
