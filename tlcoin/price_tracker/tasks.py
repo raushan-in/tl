@@ -3,7 +3,12 @@ from __future__ import absolute_import, unicode_literals
 import os
 
 import requests
+from datetime import datetime
 from celery import shared_task
+from .models import CoinPrices, Coins
+import pytz
+from django.db.utils import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 
 COIN_SOURCE_URI = os.environ.get("COIN_SOURCE_URI", "https://api.coingecko.com/api/v3")
 
@@ -12,8 +17,31 @@ def refresh_price(coin="bitcoin", vs_currency="USD", seconds=40):
     '''
     Method to get coin price-vs-Currency periodic data from external data source
     '''
+    try:
+        coin_obj = Coins.objects.get(coin_id=coin)
+    except ObjectDoesNotExist:
+        print("Invalid Coin id")
+        return
+
     response=requests.get(f"{COIN_SOURCE_URI}/simple/price?ids={coin}&vs_currencies={vs_currency}&include_last_updated_at=true")
     if response.status_code == 200:
-        return response.json()
+        response_data = response.json()
+        coin_deatil = response_data.get(coin)
+        price = coin_deatil.get(vs_currency.lower())
+        update_timestmap = coin_deatil.get("last_updated_at")
+
+        if price and update_timestmap:
+            price_updated_at = datetime.fromtimestamp(update_timestmap, tz=pytz.utc)
+
+            try:
+                coin_price = CoinPrices(coin=coin_obj, vs_currency=vs_currency, price=price, price_updated_at=price_updated_at)
+                coin_price.save()
+            except IntegrityError:
+                print(f"no change in price of {coin}")
+    
+            return True
+        else:
+            print("data missing in response")
+            return False
     else:
         print(f"status - {response.status_code}")
