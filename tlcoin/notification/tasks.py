@@ -5,7 +5,7 @@ from datetime import datetime
 from decouple import Csv, config
 
 from .models import PriceThresholdNotifications
-from .utilis import validate_email
+from .emails import send_email
 
 LOWER_PRICE_LIMIT = config('MIN_PRICE_LIMIT', cast=int)
 UPPER_PRICE_LIMIT = config('MAX_PRICE_LIMIT', cast=int)
@@ -19,10 +19,12 @@ def notifier(price, coin="bitcoin"):
         email = USER_EMAIL[0] # for now, supports only one email
         subject, message, threshold_type = get_notification_info(email, price, coin)
         if subject and message:
-            #TODO - SEND EMAIL
-            
-            update_notification_status(email, threshold_type, coin)
-            print("****notification task completed****")
+            sent = send_email(subject, message, [email])
+            if sent:
+                update_notification_status(email, threshold_type, coin)
+                print("****notification task completed****")
+            else:
+                print("****notification task FAILED****")
     else:
         print("No user for notification")
 
