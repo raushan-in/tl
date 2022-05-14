@@ -9,6 +9,7 @@ from .models import CoinPrices, Coins
 import pytz
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
+from notification.tasks import notifier
 
 COIN_SOURCE_URI = os.environ.get("COIN_SOURCE_URI", "https://api.coingecko.com/api/v3")
 
@@ -38,6 +39,8 @@ def refresh_price(coin="bitcoin", vs_currency="USD", seconds=40):
                 coin_price.save()
             except IntegrityError:
                 print(f"no change in price of {coin}")
+            else:
+                notifier(price=price, coin=coin) # trigger notification task
     
             return True
         else:

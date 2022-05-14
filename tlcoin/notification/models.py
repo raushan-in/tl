@@ -1,10 +1,9 @@
 from django.db import models
 
-# List of coins
 class PriceThresholdNotifications(models.Model):
     email = models.EmailField()
-    lower_threshold_flag = models.BooleanField()
-    upper_threshold_flag = models.BooleanField()
+    lower_threshold_flag = models.BooleanField(default=False)
+    upper_threshold_flag = models.BooleanField(default=False)
     coin_id = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
