@@ -20,7 +20,7 @@ services:
         build: .
         command: celery -A tlcoin worker -l INFO
         volumes:
-            - .:/usr/src/app
+            - .:/usr/src/tlcoin
         environment:
             - DEBUG=1
             - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
