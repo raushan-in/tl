@@ -18,7 +18,7 @@ services:
             - redis
     celery:
         build: .
-        command: celery -A tlcoin worker -l INFO
+        command: celery -A tlcoin worker -l INFO -B
         volumes:
             - .:/usr/src/tlcoin
         environment:
