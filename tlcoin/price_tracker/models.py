@@ -21,6 +21,7 @@ class CoinPrices(models.Model):
 
     class Meta:
         unique_together = ('coin_id', 'vs_currency', 'price', 'price_updated_at')
+        verbose_name_plural = "crypto Prices"
 
     def __str__(self):
-        return f'{self.coin_id}-{self.vs_currency}-{self.price}'
+        return f'{self.coin.coin_id}-{self.vs_currency}-{self.price}'
