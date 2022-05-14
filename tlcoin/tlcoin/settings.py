@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     #apps
     'price_tracker'
+    'coin'
 ]
 
 MIDDLEWARE = [
