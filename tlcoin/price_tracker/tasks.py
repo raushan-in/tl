@@ -14,7 +14,7 @@ from notification.tasks import notifier
 COIN_SOURCE_URI = os.environ.get("COIN_SOURCE_URI", "https://api.coingecko.com/api/v3")
 
 @shared_task
-def refresh_price(coin="bitcoin", vs_currency="USD", seconds=40):
+def refresh_price(coin="bitcoin", vs_currency="USD"):
     '''
     Method to get coin price-vs-Currency periodic data from external data source
     '''

@@ -12,9 +12,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-from decouple import Csv, config
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+from celery.schedule import crontab
 
 
 # Quick-start development settings - unsuitable for production
@@ -130,8 +132,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #celery
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_BROKER_URL = config("CELERY_BROKER", "redis://0.0.0.0:6379/0")
+CELERY_RESULT_BACKEND = config("CELERY_BROKER", "redis://0.0.0.0:6379/0")
+CELERY_BEAT_SCHEDULE ={
+    'refresh-price': {
+        "task": 'price_tracker.tasks.refresh_price',
+        "schedule": crontab(minute="*/1")
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
