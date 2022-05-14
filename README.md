@@ -7,14 +7,20 @@ This repository hosts the code for Cryptocurrency Price Tracker. Written in Pyth
 - Docker (for building image)
 
 
-### env setup.
-provide value for these varibales in .env
+## env setup
+- provide value for these varibales in .env file
 
-- USER_EMAIL=""
-- MIN_PRICE_LIMIT=100
-- MAX_PRICE_LIMIT=500
+```
+USER_EMAIL=""
+MIN_PRICE_LIMIT=100
+MAX_PRICE_LIMIT=500
 
-- EMAIL_HOST = 'smtp.mailtrap.io'
-- EMAIL_HOST_USER = ''
-- EMAIL_HOST_PASSWORD = ''
-- EMAIL_PORT = ''
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = ''
+```
+
+## Author
+
+[Raushan Kumar](https://www.linkedin.com/in/raushan-in/)
