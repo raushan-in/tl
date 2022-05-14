@@ -1,15 +1,16 @@
 from __future__ import absolute_import, unicode_literals
 
 import os
-
-import requests
 from datetime import datetime
-from celery import shared_task
-from .models import CoinPrices, Coins
+
 import pytz
-from django.db.utils import IntegrityError
+import requests
+from celery import shared_task
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.utils import IntegrityError
 from notification.tasks import notifier
+
+from .models import CoinPrices, Coins
 
 COIN_SOURCE_URI = os.environ.get("COIN_SOURCE_URI", "https://api.coingecko.com/api/v3")
 
@@ -41,10 +42,7 @@ def refresh_price(coin="bitcoin", vs_currency="USD"):
                 print(f"no change in price of {coin}")
             else:
                 notifier(price=price, coin=coin) # trigger notification task
-    
-            return True
         else:
             print("data missing in response")
-            return False
     else:
         print(f"status - {response.status_code}")

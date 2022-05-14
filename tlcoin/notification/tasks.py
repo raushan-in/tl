@@ -1,11 +1,11 @@
-import imp
 import os
 from datetime import datetime
 
+import pytz
 from decouple import Csv, config
 
-from .models import PriceThresholdNotifications
 from .emails import send_email
+from .models import PriceThresholdNotifications
 
 LOWER_PRICE_LIMIT = config('MIN_PRICE_LIMIT', cast=int)
 UPPER_PRICE_LIMIT = config('MAX_PRICE_LIMIT', cast=int)
@@ -54,8 +54,10 @@ def check_notification_status(email, threshold_type, coin):
     Check if notification already sent to user for today. \n
     Return `True` if no notification sent to user for given limit and coin.
     '''
-    today = datetime.today()
+    today = datetime.now(pytz.timezone("UTC"))
+
     if threshold_type == "lower":
+        
         if not PriceThresholdNotifications.objects.filter(email=email, lower_threshold_flag=True, coin_id=coin, created_at__date=today):
             return True
     elif threshold_type == "upper":

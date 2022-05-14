@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Coins, CoinPrices
+
+from .models import CoinPrices, Coins
 
 # Register your models here.
 admin.site.register(Coins)
