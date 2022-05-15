@@ -7,9 +7,10 @@ This repository hosts the code for Cryptocurrency Price Tracker. Written in Pyth
 - Docker (for building image)
 
 
-## env setup
-- provide value for these varibales in .env file
+## Steps to start server
 
+- create an .env file.
+- add these variables into .env
 ```
 USER_EMAIL=""
 MIN_PRICE_LIMIT=100
@@ -20,6 +21,16 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = ''
 ```
+- Run these command
+```
+docker compose run web
+```
+```
+docker compose up
+```
+
+- Open `http://127.0.0.1:8000/admin/` in browser.
+- Endpoint: GET /api/prices/btc?date=DD-MM-YYYY
 
 ## Author
 
